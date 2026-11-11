@@ -1,0 +1,259 @@
+/* SIGHO · Departamentos | Estilos exclusivos del CRUD.
+   Se carga DESPUÉS de styles.css; no altera login.xhtml ni inicio.xhtml. */
+
+.crud-premium {
+  background: #f3f7fa;
+  color: #253142;
+}
+.crud-premium .dep-header-label {
+  font-size: .77rem;
+  font-weight: 600;
+  color: #777b85;
+  letter-spacing: .02em;
+}
+.crud-premium .dep-topbar { padding-top: 14px; padding-bottom: 14px; font-size: .87rem; }
+.crud-premium .dep-topbar-separador { padding: 0 9px; opacity: .7; }
+.crud-premium .dep-topbar .boton-franja { font-size: .83rem; padding: 8px 18px; }
+
+.crud-premium .dep-main { flex: 1; width: 100%; padding: 34px 24px 62px; }
+.crud-premium .dep-shell { width: min(100%, 1230px); margin: 0 auto; }
+.crud-premium .dep-introduccion {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 28px; margin-bottom: 26px;
+}
+.crud-premium .dep-eyebrow {
+  display: block; margin-bottom: 8px; color: #1a64a6;
+  font-size: .7rem; font-weight: 700; letter-spacing: .12em;
+}
+.crud-premium .dep-introduccion h1 {
+  font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+  line-height: 1.2; letter-spacing: -.035em;
+  margin: 0 0 10px; color: #202936; font-weight: 700;
+}
+.crud-premium .dep-introduccion p {
+  font-size: .89rem; line-height: 1.7; max-width: 710px;
+  margin: 0; color: #647081;
+}
+.crud-premium .dep-counter {
+  background: #fff; border: 1px solid #d4e2ee;
+  box-shadow: 0 7px 22px rgba(47, 37, 29, .045);
+  border-radius: 16px; padding: 14px 20px;
+  display: flex; align-items: center; gap: 13px; min-width: 192px;
+}
+.crud-premium .dep-counter-num {
+  font-size: 2rem; line-height: 1; font-weight: 700; color: #1f6fb5;
+}
+.crud-premium .dep-counter-caption { font-size: .77rem; color: #586373; line-height: 1.45; }
+
+.crud-premium .dep-mensajes { max-width: 1200px; margin: 0 0 20px; }
+.crud-premium .dep-mensajes li { border-radius: 10px; }
+.crud-premium .dep-grid {
+  display: grid; grid-template-columns: minmax(295px, 340px) minmax(0, 1fr);
+  align-items: start; gap: 22px;
+}
+.crud-premium .dep-card {
+  min-width: 0; background: #fff;
+  border: 1px solid #d6e2eb; border-radius: 18px;
+  box-shadow: 0 10px 34px rgba(44, 38, 35, .055);
+  overflow: hidden;
+}
+.crud-premium .dep-card-crear { padding: 26px 25px 23px; }
+.crud-premium .dep-card-lista { padding: 26px 26px 22px; }
+.crud-premium .dep-card-heading { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 23px; }
+.crud-premium .dep-step {
+  flex: 0 0 33px; height: 33px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 10px; color: #3281c1; background: #e9f5ff;
+  font-weight: 700; font-size: .8rem;
+}
+.crud-premium .dep-card-heading h2 {
+  margin: 2px 0 5px; font-size: 1.02rem; line-height: 1.3;
+  font-weight: 700; letter-spacing: -.015em; color: #253142;
+}
+.crud-premium .dep-card-heading p { margin: 0; font-size: .8rem; line-height: 1.55; color: #76808d; }
+.crud-premium .dep-list-heading { justify-content: space-between; align-items: center; }
+.crud-premium .dep-title-inline { display: flex; align-items: flex-start; gap: 13px; }
+.crud-premium .dep-count-chip {
+  white-space: nowrap; border: 1px solid #d0e3f2; color: #1a64a6;
+  background: #f2f9ff; font-size: .74rem; font-weight: 700;
+  border-radius: 100px; padding: 7px 11px;
+}
+
+.crud-premium .dep-field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+.crud-premium .dep-field label { font-weight: 700; font-size: .8rem; color: #404b5a; }
+.crud-premium .dep-field input[type="text"] {
+  width: 100%; min-width: 0; font-family: inherit; font-size: .92rem;
+  color: #293442; background: #fff; border: 1.5px solid #d2dae1;
+  border-radius: 10px; padding: 12px 13px; min-height: 44px;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.crud-premium .dep-field input[type="text"]:focus,
+.crud-premium .dep-search-controls input:focus {
+  outline: none; border-color: #2a85d0; box-shadow: 0 0 0 3px rgba(31, 111, 181, .18);
+}
+.crud-premium .dep-field small { color: #89909b; font-size: .72rem; line-height: 1.4; }
+.crud-premium .dep-field input.dep-readonly { background: #f2f5f8; color: #66717e; cursor: default; }
+.crud-premium .dep-form-actions { display: grid; gap: 10px; margin-top: 23px; }
+.crud-premium .dep-btn {
+  appearance: none; cursor: pointer; font-family: inherit; font-weight: 700;
+  font-size: .86rem; border-radius: 10px; min-height: 43px; padding: 11px 17px;
+  transition: background-color .17s ease, border-color .17s ease, transform .17s ease;
+}
+.crud-premium .dep-btn:active { transform: translateY(1px); }
+.crud-premium .dep-btn:focus-visible,
+.crud-premium .dep-row-btn:focus-visible,
+.crud-premium .dep-btn-search-clear:focus-visible {
+  outline: 3px solid #b7dfff; outline-offset: 2px;
+}
+.crud-premium .dep-btn-primary {
+  color: #fff; background: #1f6fb5; border: 1px solid #1f6fb5;
+}
+.crud-premium .dep-btn-primary:hover { background: #175a96; border-color: #175a96; }
+.crud-premium .dep-btn-outline {
+  color: #377cb5; background: #fff; border: 1px solid #b8d2e7;
+}
+.crud-premium .dep-btn-outline:hover { background: #f1f9ff; }
+.crud-premium .dep-hint {
+  display: flex; flex-direction: column; gap: 5px;
+  background: #f5f9fc; border: 1px solid #dde8f1; border-radius: 12px;
+  padding: 15px; margin-top: 25px; color: #68717d;
+  font-size: .77rem; line-height: 1.6;
+}
+.crud-premium .dep-hint strong { color: #4182b8; font-size: .8rem; }
+
+.crud-premium .dep-toolbar {
+  display: flex; justify-content: space-between; gap: 14px;
+  align-items: end; flex-wrap: wrap; margin-bottom: 16px;
+}
+.crud-premium .dep-search-wrap { flex: 1 1 300px; min-width: 0; }
+.crud-premium .dep-search-wrap label {
+  display: block; margin-bottom: 7px; color: #56606d;
+  font-size: .77rem; font-weight: 700;
+}
+.crud-premium .dep-search-controls { display: flex; gap: 8px; min-width: 0; }
+.crud-premium .dep-search-controls input[type="search"] {
+  flex: 1 1 auto; min-width: 0; min-height: 42px;
+  font-family: inherit; font-size: .85rem; border: 1.5px solid #d4dee6;
+  color: #253142; background: #fff; border-radius: 10px; padding: 10px 13px;
+}
+.crud-premium .dep-search-controls input::placeholder { color: #9aa1aa; }
+.crud-premium .dep-btn-search-clear {
+  border: 1px solid #cddce9; border-radius: 10px; background: #fff;
+  color: #397db4; padding: 8px 13px; font-family: inherit;
+  font-size: .79rem; font-weight: 700; cursor: pointer;
+}
+.crud-premium .dep-btn-search-clear:hover { background: #f1f9ff; }
+.crud-premium .dep-results-count { font-size: .75rem; color: #7c8490; padding-bottom: 12px; white-space: nowrap; }
+
+.crud-premium .dep-table-scroll { width: 100%; overflow-x: auto; border-radius: 12px; border: 1px solid #dee6ed; }
+.crud-premium .dep-table { width: 100%; min-width: 540px; border-collapse: collapse; font-size: .86rem; }
+.crud-premium .dep-table th {
+  padding: 14px 17px; text-align: left; background: #edf4f9;
+  color: #3e5f7a; font-size: .71rem; font-weight: 700; letter-spacing: .045em;
+  text-transform: uppercase; border-bottom: 1px solid #d8e4ee;
+}
+.crud-premium .dep-table td { padding: 15px 17px; border-bottom: 1px solid #e5ecf2; color: #435061; }
+.crud-premium .dep-table tr:last-child td { border-bottom: 0; }
+.crud-premium .dep-table tbody tr:hover td { background: #f7fbff; }
+.crud-premium .dep-table th:last-child { text-align: right; }
+.crud-premium .dep-table td.col-codigo { width: 95px; }
+.crud-premium .dep-table td.col-acciones { width: 186px; }
+.crud-premium .dep-code {
+  display: inline-flex; align-items: center; border-radius: 6px;
+  background: #e8f5ff; color: #3a83bf; padding: 5px 8px;
+  font-size: .78rem; font-weight: 700;
+}
+.crud-premium .dep-row-actions { display: flex; justify-content: flex-end; flex-wrap: nowrap; gap: 7px; }
+.crud-premium .dep-row-btn {
+  cursor: pointer; font-family: inherit; font-weight: 700; font-size: .75rem;
+  border-radius: 8px; padding: 8px 11px; white-space: nowrap;
+  transition: background-color .17s ease;
+}
+.crud-premium .dep-row-btn-edit { color: #3680bc; background: #f0f8ff; border: 1px solid #c4ddf2; }
+.crud-premium .dep-row-btn-edit:hover { background: #d9eeff; }
+.crud-premium .dep-row-btn-delete { color: #ae423d; background: #fff; border: 1px solid #eccfcd; }
+.crud-premium .dep-row-btn-delete:hover { background: #fff0ef; }
+.crud-premium .dep-filter-empty {
+  text-align: center; padding: 18px; color: #647080; font-size: .84rem;
+  border: 1px dashed #cedce7; border-radius: 10px; margin-top: 13px;
+}
+.crud-premium .dep-filter-empty.oculto { display: none !important; }
+.crud-premium .dep-table-note { margin: 16px 2px 0; color: #8c929d; font-size: .76rem; line-height: 1.65; }
+.crud-premium .dep-empty { text-align: center; background: #f9fcff; border: 1px dashed #cbdcea; border-radius: 14px; padding: 42px 16px; }
+.crud-premium .dep-empty-icon {
+  display: grid; place-items: center; margin: 0 auto 10px; border-radius: 12px;
+  background: #dff1ff; color: #4791cd; width: 48px; height: 48px;
+  font-size: 1.8rem; font-weight: 400;
+}
+.crud-premium .dep-empty h3 { margin: 0 0 7px; font-size: 1rem; }
+.crud-premium .dep-empty p { margin: 0 auto; max-width: 290px; font-size: .82rem; color: #747d87; line-height: 1.6; }
+
+/* El diálogo está centrado y no ocupa todo el ancho de la página. */
+.crud-premium .dep-modal-backdrop {
+  position: fixed; inset: 0; z-index: 2000;
+  display: grid; place-items: center; overflow-y: auto;
+  background: rgba(30, 35, 46, .55); padding: 20px;
+  backdrop-filter: blur(3px);
+}
+.crud-premium .dep-dialog {
+  width: min(100%, 480px); max-height: calc(100vh - 40px); overflow-y: auto;
+  background: #fff; border-radius: 18px; padding: 28px;
+  box-shadow: 0 26px 72px rgba(22, 26, 34, .25);
+  border-top: 5px solid #1f6fb5;
+}
+.crud-premium .dep-dialog-header { margin-bottom: 22px; }
+.crud-premium .dep-dialog-header h2 {
+  font-size: 1.3rem; line-height: 1.25; letter-spacing: -.02em;
+  margin: 0 0 8px; color: #233043;
+}
+.crud-premium .dep-dialog-header p { margin: 0; font-size: .84rem; line-height: 1.6; color: #737d8b; }
+.crud-premium .dep-dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+.crud-premium .dep-dialog-actions .dep-btn { width: auto; min-width: 126px; }
+
+@media (max-width: 1040px) {
+  .crud-premium .dep-grid { grid-template-columns: 1fr; }
+  .crud-premium .dep-introduccion { align-items: start; }
+  .crud-premium .dep-card-crear, .crud-premium .dep-card-lista { padding: 25px; }
+}
+@media (max-width: 620px) {
+  .crud-premium .dep-header-label { display: none; }
+  .crud-premium .dep-main { padding: 24px 13px 42px; }
+  .crud-premium .dep-introduccion { flex-direction: column; gap: 16px; }
+  .crud-premium .dep-counter { width: 100%; justify-content: flex-start; }
+  .crud-premium .dep-card-crear, .crud-premium .dep-card-lista { padding: 20px 16px; }
+  .crud-premium .dep-list-heading { align-items: start; gap: 10px; flex-wrap: wrap; }
+  .crud-premium .dep-toolbar { display: block; }
+  .crud-premium .dep-results-count { display: block; margin-top: 9px; padding-bottom: 0; }
+  .crud-premium .dep-search-controls { gap: 6px; }
+  .crud-premium .dep-search-controls input { font-size: .8rem; }
+  /* En móviles, cada fila se convierte en una ficha con acciones visibles. */
+  .crud-premium .dep-table-scroll { border: 0; overflow: visible; }
+  .crud-premium .dep-table { min-width: 0; display: block; }
+  .crud-premium .dep-table thead { display: none; }
+  .crud-premium .dep-table tbody { display: grid; gap: 10px; }
+  .crud-premium .dep-table tbody tr {
+    display: grid; grid-template-columns: 76px minmax(0, 1fr);
+    column-gap: 8px; row-gap: 6px; background: #fff;
+    border: 1px solid #dbe5ed; border-radius: 11px; padding: 13px;
+  }
+  .crud-premium .dep-table tbody tr td {
+    display: block; border: 0; padding: 0; min-width: 0;
+  }
+  .crud-premium .dep-table tbody tr td.col-codigo { width: auto; align-self: center; }
+  .crud-premium .dep-table tbody tr td.col-desc { grid-column: 2; align-self: center; overflow-wrap: anywhere; }
+  .crud-premium .dep-table tbody tr td.col-acciones {
+    grid-column: 1 / -1; width: 100%; border-top: 1px solid #e4ebf1;
+    margin-top: 9px; padding-top: 11px;
+  }
+  .crud-premium .dep-row-actions { justify-content: stretch; }
+  .crud-premium .dep-row-btn { flex: 1; min-height: 38px; }
+  .crud-premium .dep-dialog { padding: 22px 18px; }
+  .crud-premium .dep-dialog-actions { flex-direction: column-reverse; }
+  .crud-premium .dep-dialog-actions .dep-btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crud-premium .dep-btn, .crud-premium .dep-row-btn { transition: none; }
+}
+
+/* Refuerzo del diálogo: también funciona si JSF no emite la clase en <body>. */
+.dep-modal-backdrop { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(30,35,46,.55); overflow-y: auto; }
+.dep-modal-backdrop .dep-dialog { width: min(100%, 480px); margin: auto; max-height: calc(100vh - 40px); overflow-y: auto; background: #fff; border-radius: 18px; border-top: 5px solid #1f6fb5; box-shadow: 0 26px 72px rgba(22,26,34,.25); }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - SIGH</title>
+    <link rel="icon" type="image/svg+xml" href="#{resource['img:favicon.svg']}" />
+    <h:outputStylesheet library="css" name="styles.css" />
+</h:head>
+
+<h:body>
+
+    <div class="encabezado">
+        <div class="marca">
+            <ui:include src="/WEB-INF/includes/logo.xhtml" />
+            <div class="marca-texto">
+                <span class="marca-nombre">SIGH</span>
+                <span class="marca-sub">Sistema Integral de Gestión Hospitalaria</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="franja">
+        <span>Acceso seguro para el personal autorizado</span>
+    </div>
+
+    <div class="contenido">
+        <div class="tarjeta tarjeta-mascota">
+            <div class="mascota-flotante"><ui:include src="/WEB-INF/includes/mascota.xhtml" /></div>
+
+            <h1>Sistema Integral de Gestión Hospitalaria</h1>
+            <h2>Inicio de sesión</h2>
+
+            <h:form id="formLogin">
+
+                <h:messages styleClass="mensajes"
+                            errorClass="msg-error"
+                            infoClass="msg-info" />
+
+                <h:panelGroup layout="block" styleClass="campo">
+                    <h:outputLabel for="codigo" value="Usuario" />
+                    <h:inputText id="codigo"
+                                 value="#{loginController.codigo}"
+                                 required="true"
+                                 requiredMessage="Ingrese su usuario." />
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="campo">
+                    <h:outputLabel for="clave" value="Contraseña" />
+                    <h:inputSecret id="clave"
+                                   value="#{loginController.clave}"
+                                   required="true"
+                                   requiredMessage="Ingrese su contraseña." />
+                </h:panelGroup>
+
+                <h:commandButton value="Iniciar sesión"
+                                 styleClass="boton"
+                                 action="#{loginController.iniciarSesion}" />
+
+            </h:form>
+
+        </div>
+    </div>
+
+    <div class="pie">SIGH · Grupo SIGH_GR04</div>
+
+</h:body>
+</html>

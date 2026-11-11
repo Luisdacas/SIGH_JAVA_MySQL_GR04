@@ -1,0 +1,10 @@
+ec\edu\monster\resources\JakartaEE11Resource.class
+ec\edu\monster\model\Usuario.class
+ec\edu\monster\dao\DepartamentoDAO.class
+ec\edu\monster\controller\DepartamentoController.class
+ec\edu\monster\model\Departamento.class
+ec\edu\monster\util\PasswordUtil.class
+ec\edu\monster\util\ConexionBD.class
+ec\edu\monster\controller\LoginController.class
+ec\edu\monster\JakartaRestConfiguration.class
+ec\edu\monster\dao\UsuarioDAO.class
