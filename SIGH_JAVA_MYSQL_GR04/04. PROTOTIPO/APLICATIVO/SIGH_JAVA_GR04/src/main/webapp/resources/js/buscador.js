@@ -30,10 +30,10 @@
 
             filas.forEach(function (fila) {
                 var celdas = fila.querySelectorAll('td');
-                // Se busca en la columna Codigo y en la columna Descripcion
                 var texto = normalizar(
-                    (celdas[0] ? celdas[0].textContent : '') + ' ' +
-                    (celdas[1] ? celdas[1].textContent : '')
+                    Array.prototype.slice.call(celdas, 0, -1)
+                        .map(function (c) { return c.textContent; })
+                        .join(' ')
                 );
                 var coincide = termino === '' || texto.indexOf(termino) !== -1;
                 fila.style.display = coincide ? '' : 'none';
@@ -43,7 +43,7 @@
             });
 
             if (contador) {
-                contador.textContent = 'Mostrando ' + visibles + ' de ' + filas.length + ' departamentos';
+                                contador.textContent = 'Mostrando ' + visibles + ' de ' + filas.length + ' registros';
             }
             if (sinResultados) {
                 sinResultados.classList.toggle('oculto', visibles !== 0);
@@ -76,3 +76,23 @@
         iniciar();
     }
 })();
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const botonesFormNuevo = document.querySelectorAll('#formNuevo input[type="submit"], #formNuevo button');
+
+    botonesFormNuevo.forEach(function (btn) {
+        if (btn.value === "Limpiar campos" || btn.textContent.trim() === "Limpiar campos") {
+            // Agrega la 'e' de evento aquí
+            btn.addEventListener("click", function (e) {
+                e.preventDefault(); // <--- ESTO EVITA QUE LA PÁGINA SE RECARGUE
+
+                const inputCodigo = document.getElementById("formNuevo:codigoNuevo");
+                const inputDesc = document.getElementById("formNuevo:descripcionNuevo");
+
+                if (inputCodigo) inputCodigo.value = "";
+                if (inputDesc) inputDesc.value = "";
+            });
+        }
+    });
+});

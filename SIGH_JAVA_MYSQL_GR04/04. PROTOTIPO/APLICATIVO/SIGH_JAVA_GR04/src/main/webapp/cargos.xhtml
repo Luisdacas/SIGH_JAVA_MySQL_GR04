@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core">
+
+    <f:metadata>
+        <f:viewAction action="#{loginController.verificarSesion}" />
+    </f:metadata>
+
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Gestión de cargos | SIGH</title>
+        <link rel="icon" type="image/svg+xml" href="#{resource['img:favicon.svg']}" />
+        <h:outputStylesheet library="css" name="styles.css" />
+        <h:outputStylesheet library="css" name="departamentos.css" />
+        <h:outputScript library="js" name="buscador.js" target="body" />
+    </h:head>
+
+    <h:body styleClass="crud-premium">
+        <header class="encabezado">
+            <div class="marca">
+                <ui:include src="/WEB-INF/includes/logo.xhtml" />
+                <div class="marca-texto">
+                    <span class="marca-nombre">SIGH</span>
+                    <span class="marca-sub">Sistema Integral de Gestión Hospitalaria</span>
+                </div>
+            </div>
+            <span class="dep-header-label">Administración hospitalaria</span>
+        </header>
+
+        <div class="franja dep-topbar">
+            <span>Gestión de datos <span class="dep-topbar-separador">/</span> Cargos</span>
+            <h:button value="Volver al inicio" outcome="inicio" styleClass="boton boton-franja" />
+        </div>
+
+        <main class="dep-main">
+            <div class="dep-shell">
+                <div class="dep-introduccion">
+                    <div class="dep-intro-copy">
+                        <span class="dep-eyebrow">MÓDULO DE DATOS</span>
+                        <h1>Gestión de cargos</h1>
+                        <p>Registre los cargos del hospital y asígnelos a un departamento. Puede buscar, editar o eliminar registros de forma sencilla.</p>
+                    </div>
+                    <div class="dep-counter" aria-label="Número de cargos registrados">
+                        <span class="dep-counter-num"><h:outputText id="totalContador" value="#{cargoController.lista.size()}" /></span>
+                        <span class="dep-counter-caption">Cargos<br />registrados</span>
+                    </div>
+                </div>
+
+                <h:panelGroup id="mensajesHost" layout="block">
+                    <h:messages styleClass="mensajes dep-mensajes"
+                                errorClass="msg-error" infoClass="msg-info"
+                                rendered="#{not cargoController.editando}" />
+                </h:panelGroup>
+
+                <div class="dep-grid">
+                    <!-- CREAR -->
+                    <section class="dep-card dep-card-crear" aria-labelledby="tituloCrear">
+                        <div class="dep-card-heading">
+                            <span class="dep-step">01</span>
+                            <div>
+                                <h2 id="tituloCrear">Nuevo cargo</h2>
+                                <p>Complete los datos para registrar un cargo nuevo.</p>
+                            </div>
+                        </div>
+
+                        <h:form id="formNuevo" styleClass="dep-form">
+                            <h:panelGroup layout="block" styleClass="dep-field">
+                                <h:outputLabel for="codigoNuevo" value="Código del cargo" />
+                                <h:inputText id="codigoNuevo"
+                                             value="#{cargoController.nuevoCargo.codigo}"
+                                             maxlength="3" required="true"
+                                             requiredMessage="Ingrese el código del cargo." />
+                                <small>Exactamente 3 caracteres. Ejemplo: C01</small>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="dep-field">
+                                <h:outputLabel for="descripcionNuevo" value="Nombre o descripción" />
+                                <h:inputText id="descripcionNuevo"
+                                             value="#{cargoController.nuevoCargo.descripcion}"
+                                             maxlength="50" required="true"
+                                             requiredMessage="Ingrese la descripción del cargo." />
+                                <small>Ejemplo: Médico general.</small>
+                            </h:panelGroup>
+
+                            <!-- LIST BOX DE DEPARTAMENTOS -->
+                            <h:panelGroup layout="block" styleClass="dep-field">
+                                <h:outputLabel for="departamentoNuevo" value="Departamento" />
+                                <h:selectOneMenu id="departamentoNuevo"
+                                                 value="#{cargoController.nuevoCargo.departamentoCodigo}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione un departamento de la lista.">
+                                    <f:selectItem itemLabel="-- Seleccione un departamento --"
+                                                  itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{cargoController.departamentos}" var="dep"
+                                                   itemValue="#{dep.codigo}"
+                                                   itemLabel="#{dep.codigo} - #{dep.descripcion}" />
+                                </h:selectOneMenu>
+                                <small>Seleccione el departamento al que pertenece el cargo.</small>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="dep-warning"
+                                          rendered="#{empty cargoController.departamentos}">
+                                Aún no hay departamentos. Registre uno primero en el módulo de Departamentos.
+                            </h:panelGroup>
+
+                            <div class="dep-form-actions">
+                                <h:commandButton value="Registrar cargo"
+                                                 styleClass="dep-btn dep-btn-primary"
+                                                 disabled="#{empty cargoController.departamentos}"
+                                                 action="#{cargoController.registrar}" />
+                                <h:commandButton value="Limpiar campos"
+                                                 styleClass="dep-btn dep-btn-outline"
+                                                 immediate="true"
+                                                 action="#{cargoController.limpiar}" />
+                            </div>
+                        </h:form>
+                        <div class="dep-hint">
+                            <strong>Consejo</strong>
+                            <span>El código identifica cada cargo y no podrá modificarse después. Compruébelo antes de guardar.</span>
+                        </div>
+                    </section>
+
+                    <!-- CONSULTAR / MODIFICAR / ELIMINAR -->
+                    <section class="dep-card dep-card-lista" aria-labelledby="tituloListado">
+                        <div class="dep-card-heading dep-list-heading">
+                            <div class="dep-title-inline">
+                                <span class="dep-step">02</span>
+                                <div>
+                                    <h2 id="tituloListado">Cargos registrados</h2>
+                                    <p>Encuentre un cargo y seleccione la acción que necesita.</p>
+                                </div>
+                            </div>
+                            <span class="dep-count-chip"><h:outputText id="totalListado" value="#{cargoController.lista.size()}" /> en total</span>
+                        </div>
+
+                        <h:panelGroup id="listadoHost" layout="block">
+                            <h:panelGroup layout="block" rendered="#{not empty cargoController.lista}">
+                                <div class="dep-toolbar">
+                                    <div class="dep-search-wrap">
+                                        <label for="buscadorDepartamentos">Buscar cargo</label>
+                                        <div class="dep-search-controls">
+                                            <!-- Se mantienen los mismos id para reutilizar buscador.js -->
+                                            <input id="buscadorDepartamentos" type="search"
+                                                   placeholder="Código, cargo o departamento"
+                                                   autocomplete="off" />
+                                            <button type="button" id="btnLimpiarBusqueda" class="dep-btn-search-clear">Limpiar</button>
+                                        </div>
+                                    </div>
+                                    <span id="contadorDepartamentos" class="dep-results-count" aria-live="polite"></span>
+                                </div>
+
+                                <h:form id="formTabla">
+                                    <div class="dep-table-scroll">
+                                        <h:dataTable id="tablaCargos"
+                                                     value="#{cargoController.lista}" var="c"
+                                                     styleClass="tabla dep-table"
+                                                     columnClasses="col-codigo,col-desc,col-depto,col-acciones">
+                                            <h:column>
+                                                <f:facet name="header">Código</f:facet>
+                                                <span class="dep-code"><h:outputText value="#{c.codigo}" /></span>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Cargo</f:facet>
+                                                <h:outputText value="#{c.descripcion}" />
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Departamento</f:facet>
+                                                <h:outputText value="#{c.departamentoCodigo} - #{c.departamentoDescripcion}" />
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Acciones</f:facet>
+                                                <div class="dep-row-actions">
+                                                    <h:commandButton value="Editar" styleClass="dep-row-btn dep-row-btn-edit"
+                                                                     action="#{cargoController.editar(c)}">
+                                                        <f:ajax execute="@this" render=":modalHost :mensajesHost" />
+                                                    </h:commandButton>
+                                                    <h:commandButton value="Eliminar" styleClass="dep-row-btn dep-row-btn-delete"
+                                                                     onclick="return confirm('¿Eliminar el cargo #{c.codigo}? Esta acción no se puede deshacer.');"
+                                                                     action="#{cargoController.eliminar(c)}" />
+                                                </div>
+                                            </h:column>
+                                        </h:dataTable>
+                                    </div>
+                                </h:form>
+                                <div id="sinResultados" class="dep-filter-empty oculto" role="status">
+                                    No se encontraron cargos que coincidan con la búsqueda.
+                                </div>
+                                <p class="dep-table-note">Editar permite cambiar el nombre y el departamento. Eliminar quita el cargo seleccionado de forma definitiva.</p>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" rendered="#{empty cargoController.lista}"
+                                          styleClass="dep-empty">
+                                <div class="dep-empty-icon" aria-hidden="true">+</div>
+                                <h3>Aún no hay cargos</h3>
+                                <p>Comience registrando el primero en el formulario de la izquierda.</p>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <!-- MODIFICAR: ventana centrada -->
+        <h:panelGroup id="modalHost" layout="block">
+            <h:panelGroup layout="block" styleClass="dep-modal-backdrop"
+                          style="position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(30,35,46,.55);overflow-y:auto;"
+                          rendered="#{cargoController.editando}">
+                <section class="dep-dialog" role="dialog" aria-modal="true" aria-labelledby="depDialogTitulo"
+                         style="width:100%;max-width:480px;max-height:calc(100vh - 40px);overflow-y:auto;background:white;border-top:5px solid #db7f56;border-radius:18px;padding:28px;box-shadow:0 26px 72px rgba(22,26,34,.25);">
+                    <div class="dep-dialog-header">
+                        <span class="dep-eyebrow">EDITAR REGISTRO</span>
+                        <h2 id="depDialogTitulo">Modificar cargo</h2>
+                        <p>Revise la información y guarde los cambios.</p>
+                    </div>
+
+                    <h:messages styleClass="mensajes dep-mensajes"
+                                errorClass="msg-error" infoClass="msg-info" />
+
+                    <h:form id="formEditar" styleClass="dep-form">
+                        <h:panelGroup layout="block" styleClass="dep-field">
+                            <h:outputLabel for="codigoEdicion" value="Código (no editable)" />
+                            <h:inputText id="codigoEdicion"
+                                         value="#{cargoController.cargoEdicion.codigo}"
+                                         readonly="true" styleClass="dep-readonly" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="dep-field">
+                            <h:outputLabel for="descripcionEdicion" value="Nombre o descripción" />
+                            <h:inputText id="descripcionEdicion"
+                                         value="#{cargoController.cargoEdicion.descripcion}"
+                                         required="true" maxlength="50"
+                                         requiredMessage="Ingrese la descripción del cargo." />
+                            <small>Puede escribir hasta 50 caracteres.</small>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="dep-field">
+                            <h:outputLabel for="departamentoEdicion" value="Departamento" />
+                            <h:selectOneMenu id="departamentoEdicion"
+                                             value="#{cargoController.cargoEdicion.departamentoCodigo}"
+                                             required="true"
+                                             requiredMessage="Seleccione un departamento de la lista.">
+                                <f:selectItems value="#{cargoController.departamentos}" var="dep"
+                                               itemValue="#{dep.codigo}"
+                                               itemLabel="#{dep.codigo} - #{dep.descripcion}" />
+                            </h:selectOneMenu>
+                        </h:panelGroup>
+                        <div class="dep-dialog-actions">
+                            <h:commandButton value="Cancelar" styleClass="dep-btn dep-btn-outline"
+                                             immediate="true"
+                                             action="#{cargoController.cancelarEdicion}">
+                                <f:ajax execute="@this" render=":modalHost :mensajesHost" />
+                            </h:commandButton>
+                            <h:commandButton value="Guardar cambios" styleClass="dep-btn dep-btn-primary"
+                                             action="#{cargoController.actualizar}">
+                                <f:ajax execute="@form"
+                                        render=":modalHost :mensajesHost :listadoHost :totalContador :totalListado"
+                                        onevent="alTerminarAjaxDepartamentos" />
+                            </h:commandButton>
+                        </div>
+                    </h:form>
+                </section>
+            </h:panelGroup>
+        </h:panelGroup>
+
+        <footer class="pie">SIGH · Grupo SIGH_GR04</footer>
+    </h:body>
+</html>

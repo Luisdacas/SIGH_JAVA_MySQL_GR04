@@ -257,3 +257,34 @@
 /* Refuerzo del diálogo: también funciona si JSF no emite la clase en <body>. */
 .dep-modal-backdrop { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(30,35,46,.55); overflow-y: auto; }
 .dep-modal-backdrop .dep-dialog { width: min(100%, 480px); margin: auto; max-height: calc(100vh - 40px); overflow-y: auto; background: #fff; border-radius: 18px; border-top: 5px solid #1f6fb5; box-shadow: 0 26px 72px rgba(22,26,34,.25); }
+
+/* ===== CRUD Cargos: list box de departamentos ===== */
+.crud-premium .dep-field select {
+  width: 100%; min-width: 0; font-family: inherit; font-size: .9rem;
+  color: #293442; background: #fff; border: 1.5px solid #d2dae1;
+  border-radius: 10px; padding: 6px;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.crud-premium .dep-field select:focus {
+  outline: none; border-color: #2a85d0; box-shadow: 0 0 0 3px rgba(31, 111, 181, .18);
+}
+.crud-premium .dep-field select option { padding: 9px 10px; border-radius: 6px; }
+.crud-premium .dep-field select option:checked {
+  background: #1f6fb5 linear-gradient(0deg, #1f6fb5, #1f6fb5); color: #fff;
+}
+.crud-premium .dep-warning {
+  margin-bottom: 14px; padding: 11px 13px; border-radius: 10px;
+  background: #fff7ed; border: 1px solid #f3d3b3; color: #9a5a22;
+  font-size: .78rem; line-height: 1.5;
+}
+@media (max-width: 620px) {
+  .crud-premium .dep-table tbody tr td.col-depto {
+    grid-column: 2; align-self: center; overflow-wrap: anywhere;
+  }
+}
+.crud-premium .dep-field select {
+  width: 100%; min-width: 0; font-family: inherit; font-size: .9rem;
+  color: #293442; background: #fff; border: 1.5px solid #d2dae1;
+  border-radius: 10px; padding: 10px 12px;   /* antes: 6px */
+  transition: border-color .16s ease, box-shadow .16s ease;
+}

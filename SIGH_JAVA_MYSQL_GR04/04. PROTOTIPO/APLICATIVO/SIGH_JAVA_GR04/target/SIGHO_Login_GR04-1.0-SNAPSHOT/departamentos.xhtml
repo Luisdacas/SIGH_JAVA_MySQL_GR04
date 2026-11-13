@@ -5,227 +5,230 @@
       xmlns:ui="jakarta.faces.facelets"
       xmlns:f="jakarta.faces.core">
 
-<f:metadata>
-    <f:viewAction action="#{loginController.verificarSesion}" />
-</f:metadata>
+    <f:metadata>
+        <f:viewAction action="#{loginController.verificarSesion}" />
+    </f:metadata>
 
-<h:head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gestión de departamentos | SIGH</title>
-    <!-- Mantiene el diseño general del login y añade estilos exclusivos al CRUD -->
-    <link rel="icon" type="image/svg+xml" href="#{resource['img:favicon.svg']}" />
-    <h:outputStylesheet library="css" name="styles.css" />
-    <h:outputStylesheet library="css" name="departamentos.css" />
-    <h:outputScript library="js" name="buscador.js" target="body" />
-</h:head>
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Gestión de departamentos | SIGH</title>
+        <!-- Mantiene el diseño general del login y añade estilos exclusivos al CRUD -->
+        <link rel="icon" type="image/svg+xml" href="#{resource['img:favicon.svg']}" />
+        <h:outputStylesheet library="css" name="styles.css" />
+        <h:outputStylesheet library="css" name="departamentos.css" />
+        <h:outputScript library="js" name="buscador.js" target="body" />
+    </h:head>
 
-<h:body styleClass="crud-premium">
-    <header class="encabezado">
-        <div class="marca">
-            <ui:include src="/WEB-INF/includes/logo.xhtml" />
-            <div class="marca-texto">
-                <span class="marca-nombre">SIGH</span>
-                <span class="marca-sub">Sistema Integral de Gestión Hospitalaria</span>
+    <h:body styleClass="crud-premium">
+        <header class="encabezado">
+            <div class="marca">
+                <ui:include src="/WEB-INF/includes/logo.xhtml" />
+                <div class="marca-texto">
+                    <span class="marca-nombre">SIGH</span>
+                    <span class="marca-sub">Sistema Integral de Gestión Hospitalaria</span>
+                </div>
             </div>
+            <span class="dep-header-label">Administración hospitalaria</span>
+        </header>
+
+        <div class="franja dep-topbar">
+            <span>Gestión de datos <span class="dep-topbar-separador">/</span> Departamentos</span>
+            <h:button value="Volver al inicio" outcome="inicio" styleClass="boton boton-franja" />
         </div>
-        <span class="dep-header-label">Administración hospitalaria</span>
-    </header>
 
-    <div class="franja dep-topbar">
-        <span>Gestión de datos <span class="dep-topbar-separador">/</span> Departamentos</span>
-        <h:button value="Volver al inicio" outcome="inicio" styleClass="boton boton-franja" />
-    </div>
-
-    <main class="dep-main">
-        <div class="dep-shell">
-            <div class="dep-introduccion">
-                <div class="dep-intro-copy">
-                    <span class="dep-eyebrow">MÓDULO DE DATOS</span>
-                    <h1>Gestión de departamentos</h1>
-                    <p>Registre y administre las áreas del hospital desde un solo lugar. Puede buscar, editar o eliminar registros de forma sencilla.</p>
-                </div>
-                <div class="dep-counter" aria-label="Número de departamentos registrados">
-                    <span class="dep-counter-num"><h:outputText id="totalContador" value="#{departamentoController.lista.size()}" /></span>
-                    <span class="dep-counter-caption">Departamentos<br />registrados</span>
-                </div>
-            </div>
-
-            <h:panelGroup id="mensajesHost" layout="block">
-                <h:messages styleClass="mensajes dep-mensajes"
-                            errorClass="msg-error" infoClass="msg-info"
-                            rendered="#{not departamentoController.editando}" />
-            </h:panelGroup>
-
-            <div class="dep-grid">
-                <!-- CREAR: panel visible permanentemente -->
-                <section class="dep-card dep-card-crear" aria-labelledby="tituloCrear">
-                    <div class="dep-card-heading">
-                        <span class="dep-step">01</span>
-                        <div>
-                            <h2 id="tituloCrear">Nuevo departamento</h2>
-                            <p>Complete los datos para registrar un área nueva.</p>
-                        </div>
+        <main class="dep-main">
+            <div class="dep-shell">
+                <div class="dep-introduccion">
+                    <div class="dep-intro-copy">
+                        <span class="dep-eyebrow">MÓDULO DE DATOS</span>
+                        <h1>Gestión de departamentos</h1>
+                        <p>Registre y administre las áreas del hospital desde un solo lugar. Puede buscar, editar o eliminar registros de forma sencilla.</p>
                     </div>
-
-                    <h:form id="formNuevo" styleClass="dep-form">
-                        <h:panelGroup layout="block" styleClass="dep-field">
-                            <h:outputLabel for="codigoNuevo" value="Código del departamento" />
-                            <h:inputText id="codigoNuevo"
-                                         value="#{departamentoController.nuevoDepartamento.codigo}"
-                                         maxlength="3" required="true"
-                                         requiredMessage="Ingrese el código del departamento." />
-                            <small>Exactamente 3 caracteres. Ejemplo: D01</small>
-                        </h:panelGroup>
-                        <h:panelGroup layout="block" styleClass="dep-field">
-                            <h:outputLabel for="descripcionNuevo" value="Nombre o descripción" />
-                            <h:inputText id="descripcionNuevo"
-                                         value="#{departamentoController.nuevoDepartamento.descripcion}"
-                                         maxlength="50" required="true"
-                                         requiredMessage="Ingrese la descripción del departamento." />
-                            <small>Nombre reconocible, por ejemplo: Radiología.</small>
-                        </h:panelGroup>
-                        <div class="dep-form-actions">
-                            <h:commandButton value="Registrar departamento"
-                                             styleClass="dep-btn dep-btn-primary"
-                                             action="#{departamentoController.registrar}" />
-                            <h:commandButton value="Limpiar campos"
-                                             styleClass="dep-btn dep-btn-outline"
-                                             immediate="true"
-                                             action="#{departamentoController.limpiar}" />
-                        </div>
-                    </h:form>
-                    <div class="dep-hint">
-                        <strong>Consejo</strong>
-                        <span>El código identifica cada departamento y no podrá modificarse después. Compruébelo antes de guardar.</span>
+                    <div class="dep-counter" aria-label="Número de departamentos registrados">
+                        <span class="dep-counter-num"><h:outputText id="totalContador" value="#{departamentoController.lista.size()}" /></span>
+                        <span class="dep-counter-caption">Departamentos<br />registrados</span>
                     </div>
-                </section>
+                </div>
 
-                <!-- CONSULTAR / MODIFICAR / ELIMINAR -->
-                <section class="dep-card dep-card-lista" aria-labelledby="tituloListado">
-                    <div class="dep-card-heading dep-list-heading">
-                        <div class="dep-title-inline">
-                            <span class="dep-step">02</span>
+                <h:panelGroup id="mensajesHost" layout="block">
+                    <h:messages styleClass="mensajes dep-mensajes"
+                                errorClass="msg-error" infoClass="msg-info"
+                                rendered="#{not departamentoController.editando}" />
+                </h:panelGroup>
+
+                <div class="dep-grid">
+                    <!-- CREAR: panel visible permanentemente -->
+                    <section class="dep-card dep-card-crear" aria-labelledby="tituloCrear">
+                        <div class="dep-card-heading">
+                            <span class="dep-step">01</span>
                             <div>
-                                <h2 id="tituloListado">Departamentos registrados</h2>
-                                <p>Encuentre un área y seleccione la acción que necesita.</p>
+                                <h2 id="tituloCrear">Nuevo departamento</h2>
+                                <p>Complete los datos para registrar un área nueva.</p>
                             </div>
                         </div>
-                        <span class="dep-count-chip"><h:outputText id="totalListado" value="#{departamentoController.lista.size()}" /> en total</span>
-                    </div>
 
-                    <h:panelGroup id="listadoHost" layout="block">
-                    <h:panelGroup layout="block" rendered="#{not empty departamentoController.lista}">
-                        <div class="dep-toolbar">
-                            <div class="dep-search-wrap">
-                                <label for="buscadorDepartamentos">Buscar departamento</label>
-                                <div class="dep-search-controls">
-                                    <input id="buscadorDepartamentos" type="search"
-                                           placeholder="Código o nombre del departamento"
-                                           autocomplete="off" />
-                                    <button type="button" id="btnLimpiarBusqueda" class="dep-btn-search-clear">Limpiar</button>
-                                </div>
-                            </div>
-                            <span id="contadorDepartamentos" class="dep-results-count" aria-live="polite"></span>
-                        </div>
-
-                        <h:form id="formTabla">
-                            <div class="dep-table-scroll">
-                                <h:dataTable id="tablaDepartamentos"
-                                             value="#{departamentoController.lista}" var="d"
-                                             styleClass="tabla dep-table"
-                                             columnClasses="col-codigo,col-desc,col-acciones">
-                                    <h:column>
-                                        <f:facet name="header">Código</f:facet>
-                                        <span class="dep-code"><h:outputText value="#{d.codigo}" /></span>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">Descripción</f:facet>
-                                        <h:outputText value="#{d.descripcion}" />
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">Acciones</f:facet>
-                                        <div class="dep-row-actions">
-                                            <h:commandButton value="Editar" styleClass="dep-row-btn dep-row-btn-edit"
-                                                             action="#{departamentoController.editar(d)}">
-                                                <f:ajax execute="@this" render=":modalHost :mensajesHost" />
-                                            </h:commandButton>
-                                            <!-- Envio completo: evita fallos de AJAX y permite ver el mensaje SQL. -->
-                                            <h:commandButton value="Eliminar" styleClass="dep-row-btn dep-row-btn-delete"
-                                                             onclick="return confirm('¿Eliminar el departamento #{d.codigo}? Esta acción no se puede deshacer.');"
-                                                             action="#{departamentoController.eliminar(d)}" />
-                                        </div>
-                                    </h:column>
-                                </h:dataTable>
+                        <h:form id="formNuevo" styleClass="dep-form">
+                            <h:panelGroup layout="block" styleClass="dep-field">
+                                <h:outputLabel for="codigoNuevo" value="Código del departamento" />
+                                <h:inputText id="codigoNuevo"
+                                             value="#{departamentoController.nuevoDepartamento.codigo}"
+                                             maxlength="3" required="true"
+                                             requiredMessage="Ingrese el código del departamento." />
+                                <small>Exactamente 3 caracteres. Ejemplo: D01</small>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="dep-field">
+                                <h:outputLabel for="descripcionNuevo" value="Nombre o descripción" />
+                                <h:inputText id="descripcionNuevo"
+                                             value="#{departamentoController.nuevoDepartamento.descripcion}"
+                                             maxlength="50" required="true"
+                                             requiredMessage="Ingrese la descripción del departamento." />
+                                <small>Nombre reconocible, por ejemplo: Radiología.</small>
+                            </h:panelGroup>
+                            <div class="dep-form-actions">
+                                <h:commandButton value="Registrar departamento"
+                                                 styleClass="dep-btn dep-btn-primary"
+                                                 action="#{departamentoController.registrar}" />
+                                <h:commandButton value="Limpiar campos"
+                                                 styleClass="dep-btn dep-btn-outline"
+                                                 immediate="true"
+                                                 action="#{departamentoController.limpiar}">
+                                    <!-- Esto limpia el formulario sin recargar la página entera -->
+                                    <f:ajax execute="@this" render="@form" resetValues="true" />
+                                </h:commandButton>
                             </div>
                         </h:form>
-                        <div id="sinResultados" class="dep-filter-empty oculto" role="status">
-                            No se encontraron departamentos que coincidan con la búsqueda.
+                        <div class="dep-hint">
+                            <strong>Consejo</strong>
+                            <span>El código identifica cada departamento y no podrá modificarse después. Compruébelo antes de guardar.</span>
                         </div>
-                        <p class="dep-table-note">Editar cambia la descripción. Eliminar quita el departamento seleccionado de forma definitiva.</p>
-                    </h:panelGroup>
+                    </section>
 
-                    <h:panelGroup layout="block" rendered="#{empty departamentoController.lista}"
-                                  styleClass="dep-empty">
-                        <div class="dep-empty-icon" aria-hidden="true">+</div>
-                        <h3>Aún no hay departamentos</h3>
-                        <p>Comience registrando el primero en el formulario de la izquierda.</p>
-                    </h:panelGroup>
-                    </h:panelGroup>
-                </section>
-            </div>
-        </div>
-    </main>
+                    <!-- CONSULTAR / MODIFICAR / ELIMINAR -->
+                    <section class="dep-card dep-card-lista" aria-labelledby="tituloListado">
+                        <div class="dep-card-heading dep-list-heading">
+                            <div class="dep-title-inline">
+                                <span class="dep-step">02</span>
+                                <div>
+                                    <h2 id="tituloListado">Departamentos registrados</h2>
+                                    <p>Encuentre un área y seleccione la acción que necesita.</p>
+                                </div>
+                            </div>
+                            <span class="dep-count-chip"><h:outputText id="totalListado" value="#{departamentoController.lista.size()}" /> en total</span>
+                        </div>
 
-    <!-- MODIFICAR: ventana centrada, solo cuando se selecciona Editar -->
-    <h:panelGroup id="modalHost" layout="block">
-    <h:panelGroup layout="block" styleClass="dep-modal-backdrop"
-                  style="position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(30,35,46,.55);overflow-y:auto;"
-                  rendered="#{departamentoController.editando}">
-        <section class="dep-dialog" role="dialog" aria-modal="true" aria-labelledby="depDialogTitulo"
-                 style="width:100%;max-width:480px;max-height:calc(100vh - 40px);overflow-y:auto;background:white;border-top:5px solid #db7f56;border-radius:18px;padding:28px;box-shadow:0 26px 72px rgba(22,26,34,.25);">
-            <div class="dep-dialog-header">
-                <span class="dep-eyebrow">EDITAR REGISTRO</span>
-                <h2 id="depDialogTitulo">Modificar departamento</h2>
-                <p>Revise la información y guarde los cambios en la descripción.</p>
-            </div>
+                        <h:panelGroup id="listadoHost" layout="block">
+                            <h:panelGroup layout="block" rendered="#{not empty departamentoController.lista}">
+                                <div class="dep-toolbar">
+                                    <div class="dep-search-wrap">
+                                        <label for="buscadorDepartamentos">Buscar departamento</label>
+                                        <div class="dep-search-controls">
+                                            <input id="buscadorDepartamentos" type="search"
+                                                   placeholder="Código o nombre del departamento"
+                                                   autocomplete="off" />
+                                            <button type="button" id="btnLimpiarBusqueda" class="dep-btn-search-clear">Limpiar</button>
+                                        </div>
+                                    </div>
+                                    <span id="contadorDepartamentos" class="dep-results-count" aria-live="polite"></span>
+                                </div>
 
-            <h:messages styleClass="mensajes dep-mensajes"
-                        errorClass="msg-error" infoClass="msg-info" />
+                                <h:form id="formTabla">
+                                    <div class="dep-table-scroll">
+                                        <h:dataTable id="tablaDepartamentos"
+                                                     value="#{departamentoController.lista}" var="d"
+                                                     styleClass="tabla dep-table"
+                                                     columnClasses="col-codigo,col-desc,col-acciones">
+                                            <h:column>
+                                                <f:facet name="header">Código</f:facet>
+                                                <span class="dep-code"><h:outputText value="#{d.codigo}" /></span>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Descripción</f:facet>
+                                                <h:outputText value="#{d.descripcion}" />
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Acciones</f:facet>
+                                                <div class="dep-row-actions">
+                                                    <h:commandButton value="Editar" styleClass="dep-row-btn dep-row-btn-edit"
+                                                                     action="#{departamentoController.editar(d)}">
+                                                        <f:ajax execute="@this" render=":modalHost :mensajesHost" />
+                                                    </h:commandButton>
+                                                    <!-- Envio completo: evita fallos de AJAX y permite ver el mensaje SQL. -->
+                                                    <h:commandButton value="Eliminar" styleClass="dep-row-btn dep-row-btn-delete"
+                                                                     onclick="return confirm('¿Eliminar el departamento #{d.codigo}? Esta acción no se puede deshacer.');"
+                                                                     action="#{departamentoController.eliminar(d)}" />
+                                                </div>
+                                            </h:column>
+                                        </h:dataTable>
+                                    </div>
+                                </h:form>
+                                <div id="sinResultados" class="dep-filter-empty oculto" role="status">
+                                    No se encontraron departamentos que coincidan con la búsqueda.
+                                </div>
+                                <p class="dep-table-note">Editar cambia la descripción. Eliminar quita el departamento seleccionado de forma definitiva.</p>
+                            </h:panelGroup>
 
-            <h:form id="formEditar" styleClass="dep-form">
-                <h:panelGroup layout="block" styleClass="dep-field">
-                    <h:outputLabel for="codigoEdicion" value="Código (no editable)" />
-                    <h:inputText id="codigoEdicion"
-                                 value="#{departamentoController.departamentoEdicion.codigo}"
-                                 readonly="true" styleClass="dep-readonly" />
-                </h:panelGroup>
-                <h:panelGroup layout="block" styleClass="dep-field">
-                    <h:outputLabel for="descripcionEdicion" value="Nombre o descripción" />
-                    <h:inputText id="descripcionEdicion"
-                                 value="#{departamentoController.departamentoEdicion.descripcion}"
-                                 required="true" maxlength="50"
-                                 requiredMessage="Ingrese la descripción del departamento." />
-                    <small>Puede escribir hasta 50 caracteres.</small>
-                </h:panelGroup>
-                <div class="dep-dialog-actions">
-                    <h:commandButton value="Cancelar" styleClass="dep-btn dep-btn-outline"
-                                     immediate="true"
-                                     action="#{departamentoController.cancelarEdicion}">
-                        <f:ajax execute="@this" render=":modalHost :mensajesHost" />
-                    </h:commandButton>
-                    <h:commandButton value="Guardar cambios" styleClass="dep-btn dep-btn-primary"
-                                     action="#{departamentoController.actualizar}">
-                        <f:ajax execute="@form"
-                                render=":modalHost :mensajesHost :listadoHost :totalContador :totalListado"
-                                onevent="alTerminarAjaxDepartamentos" />
-                    </h:commandButton>
+                            <h:panelGroup layout="block" rendered="#{empty departamentoController.lista}"
+                                          styleClass="dep-empty">
+                                <div class="dep-empty-icon" aria-hidden="true">+</div>
+                                <h3>Aún no hay departamentos</h3>
+                                <p>Comience registrando el primero en el formulario de la izquierda.</p>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </section>
                 </div>
-            </h:form>
-        </section>
-    </h:panelGroup>
-    </h:panelGroup>
+            </div>
+        </main>
 
-    <footer class="pie">SIGH · Grupo SIGH_GR04</footer>
-</h:body>
+        <!-- MODIFICAR: ventana centrada, solo cuando se selecciona Editar -->
+        <h:panelGroup id="modalHost" layout="block">
+            <h:panelGroup layout="block" styleClass="dep-modal-backdrop"
+                          style="position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(30,35,46,.55);overflow-y:auto;"
+                          rendered="#{departamentoController.editando}">
+                <section class="dep-dialog" role="dialog" aria-modal="true" aria-labelledby="depDialogTitulo"
+                         style="width:100%;max-width:480px;max-height:calc(100vh - 40px);overflow-y:auto;background:white;border-top:5px solid #db7f56;border-radius:18px;padding:28px;box-shadow:0 26px 72px rgba(22,26,34,.25);">
+                    <div class="dep-dialog-header">
+                        <span class="dep-eyebrow">EDITAR REGISTRO</span>
+                        <h2 id="depDialogTitulo">Modificar departamento</h2>
+                        <p>Revise la información y guarde los cambios en la descripción.</p>
+                    </div>
+
+                    <h:messages styleClass="mensajes dep-mensajes"
+                                errorClass="msg-error" infoClass="msg-info" />
+
+                    <h:form id="formEditar" styleClass="dep-form">
+                        <h:panelGroup layout="block" styleClass="dep-field">
+                            <h:outputLabel for="codigoEdicion" value="Código (no editable)" />
+                            <h:inputText id="codigoEdicion"
+                                         value="#{departamentoController.departamentoEdicion.codigo}"
+                                         readonly="true" styleClass="dep-readonly" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="dep-field">
+                            <h:outputLabel for="descripcionEdicion" value="Nombre o descripción" />
+                            <h:inputText id="descripcionEdicion"
+                                         value="#{departamentoController.departamentoEdicion.descripcion}"
+                                         required="true" maxlength="50"
+                                         requiredMessage="Ingrese la descripción del departamento." />
+                            <small>Puede escribir hasta 50 caracteres.</small>
+                        </h:panelGroup>
+                        <div class="dep-dialog-actions">
+                            <h:commandButton value="Cancelar" styleClass="dep-btn dep-btn-outline"
+                                             immediate="true"
+                                             action="#{departamentoController.cancelarEdicion}">
+                                <f:ajax execute="@this" render=":modalHost :mensajesHost" />
+                            </h:commandButton>
+                            <h:commandButton value="Guardar cambios" styleClass="dep-btn dep-btn-primary"
+                                             action="#{departamentoController.actualizar}">
+                                <f:ajax execute="@form"
+                                        render=":modalHost :mensajesHost :listadoHost :totalContador :totalListado"
+                                        onevent="alTerminarAjaxDepartamentos" />
+                            </h:commandButton>
+                        </div>
+                    </h:form>
+                </section>
+            </h:panelGroup>
+        </h:panelGroup>
+
+        <footer class="pie">SIGH · Grupo SIGH_GR04</footer>
+    </h:body>
 </html>

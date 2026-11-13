@@ -88,6 +88,8 @@ public class DepartamentoController implements Serializable {
 
     public String limpiar() {
         nuevoDepartamento = new Departamento();
+        departamentoEdicion = new Departamento();
+        editando = false;
         return null;
     }
 
@@ -139,6 +141,7 @@ public class DepartamentoController implements Serializable {
 
     public String cancelarEdicion() {
         cerrarEdicion();
+        nuevoDepartamento = new Departamento(); // Limpia también el formulario de registro si se desea
         return null;
     }
 
